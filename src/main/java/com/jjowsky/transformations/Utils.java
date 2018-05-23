@@ -1,9 +1,17 @@
 package com.jjowsky.transformations;
 
+import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
 public class Utils {
+
+    public static boolean isMonochrome(BufferedImage image) {
+        final int type = image.getColorModel().getColorSpace().getType();
+        final boolean isMonochrome = (type == ColorSpace.TYPE_GRAY || type == ColorSpace.CS_GRAY);
+
+        return isMonochrome;
+    }
 
     public static int[][] convertTo2D(BufferedImage image) {
         final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
@@ -12,6 +20,21 @@ public class Utils {
         final boolean hasAlphaChannel = image.getAlphaRaster() != null;
 
         int[][] result = new int[height][width];
+
+        if (isMonochrome(image)) {
+            final int pixelLength = 1;
+            for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
+                int grey = ((int) pixels[pixel] & 0xff); // blue
+                result[row][col] = grey;
+                col++;
+                if (col == width) {
+                    col = 0;
+                    row++;
+                }
+            }
+            return result;
+        }
+
         if (hasAlphaChannel) {
             final int pixelLength = 4;
             for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {

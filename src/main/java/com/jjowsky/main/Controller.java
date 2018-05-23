@@ -14,12 +14,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
+
+import static com.jjowsky.transformations.Utils.isMonochrome;
 
 public class Controller {
 
@@ -75,8 +74,15 @@ public class Controller {
         switch (optionsComboBox.getValue().toString()) {
             case "Noise": {
                 if (noisesComboBox.getValue().toString().equals("Gaussian")) {
-                    BufferedImage bufImg = Noise.addGaussianNoise(pixels, Double.valueOf(inputValue.getText()));
-                    displayBufferedImage(bufImg);
+                    if (isMonochrome(image)) {
+                        BufferedImage bufImg = Noise.addGaussianNoiseMono(pixels, Double.valueOf(inputValue.getText()));
+                        displayBufferedImage(bufImg);
+                    }
+                    else {
+                        BufferedImage bufImg = Noise.addGaussianNoiseRGB(pixels, Double.valueOf(inputValue.getText()));
+                        displayBufferedImage(bufImg);
+                    }
+
                 } else if (noisesComboBox.getValue().toString().equals("Salt and pepper")) {
                     BufferedImage bufImg = Noise.addSaltPepperNoise(pixels, Double.valueOf(inputValue.getText()));
                     displayBufferedImage(bufImg);
