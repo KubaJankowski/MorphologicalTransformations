@@ -5,13 +5,16 @@ import com.jjowsky.transformations.Utils;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
@@ -30,6 +33,10 @@ public class Controller {
     private ComboBox optionsComboBox;
     @FXML
     private ComboBox noisesComboBox;
+    @FXML
+    private TextField stdValue;
+    @FXML
+    private Label stdLabel;
 
     private BufferedImage image;
 
@@ -57,11 +64,14 @@ public class Controller {
         noisesComboBox.getItems().clear();
         noisesComboBox.getItems().addAll("Gaussian");
         noisesComboBox.setVisible(false);
+        stdValue.setVisible(false);
+        stdLabel.setVisible(false);
+
     }
 
     public void transformOnAction() throws InterruptedException {
            int[][] pixels = Utils.convertTo2D(image);
-           BufferedImage bufImg = Noise.addGaussianNoise(pixels);
+           BufferedImage bufImg = Noise.addGaussianNoise(pixels, Double.valueOf(stdValue.getText()));
            Image img = SwingFXUtils.toFXImage(bufImg, null);
            displayPane.getChildren().remove(0);
            ImageView iv = new ImageView(img);
@@ -72,6 +82,8 @@ public class Controller {
         switch (optionsComboBox.getValue().toString()) {
             case "Noise" : {
                 noisesComboBox.setVisible(true);
+                stdValue.setVisible(true);
+                stdLabel.setVisible(true);
             }
         }
     }

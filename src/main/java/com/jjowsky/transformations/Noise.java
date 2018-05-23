@@ -27,9 +27,9 @@ public class Noise {
         return  resultd;
     }
 
-    public static BufferedImage addGaussianNoise(int[][] pixels) {
+    public static BufferedImage addGaussianNoise(int[][] pixels, double std) {
         BufferedImage img = new BufferedImage(pixels[0].length, pixels.length, BufferedImage.TYPE_3BYTE_BGR);
-        Random rnd = new Random();
+
         int[] minMaxRed = Utils.getColorMinMax(pixels, "red");
         int[] minMaxBlue = Utils.getColorMinMax(pixels, "blue");
         int[] minMaxGreen = Utils.getColorMinMax(pixels, "green");
@@ -46,9 +46,9 @@ public class Noise {
                 double greenD = (double)green/255;
                 double blueD = (double)blue/255;
 
-                redD += Noise.generateGaussian()/10;
-                greenD += Noise.generateGaussian()/10;
-                blueD += Noise.generateGaussian()/10;
+                redD += Noise.generateGaussian() * std;
+                greenD += Noise.generateGaussian() * std;
+                blueD += Noise.generateGaussian() * std;
 
                 red = (int)(redD * (minMaxRed[1] - minMaxRed[0]));
                 green = (int)(greenD * (minMaxGreen[1] - minMaxGreen[0]));
