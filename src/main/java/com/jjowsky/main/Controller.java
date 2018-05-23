@@ -34,7 +34,7 @@ public class Controller {
     @FXML
     private ComboBox noisesComboBox;
     @FXML
-    private TextField stdValue;
+    private TextField inputValue;
     @FXML
     private Label stdLabel;
 
@@ -62,27 +62,41 @@ public class Controller {
         optionsComboBox.getItems().addAll("Noise");
 
         noisesComboBox.getItems().clear();
-        noisesComboBox.getItems().addAll("Gaussian");
+        noisesComboBox.getItems().addAll("Gaussian", "Salt and pepper");
         noisesComboBox.setVisible(false);
-        stdValue.setVisible(false);
+        inputValue.setVisible(false);
         stdLabel.setVisible(false);
 
     }
 
-    public void transformOnAction() throws InterruptedException {
-           int[][] pixels = Utils.convertTo2D(image);
-           BufferedImage bufImg = Noise.addGaussianNoise(pixels, Double.valueOf(stdValue.getText()));
-           Image img = SwingFXUtils.toFXImage(bufImg, null);
-           displayPane.getChildren().remove(0);
-           ImageView iv = new ImageView(img);
-           displayPane.getChildren().add(iv);
+    public void transformOnAction() {
+        int[][] pixels = Utils.convertTo2D(image);
+
+        switch (optionsComboBox.getValue().toString()) {
+            case "Noise": {
+                if (noisesComboBox.getValue().toString().equals("Gaussian")) {
+                    BufferedImage bufImg = Noise.addGaussianNoise(pixels, Double.valueOf(inputValue.getText()));
+                    displayBufferedImage(bufImg);
+                } else if (noisesComboBox.getValue().toString().equals("Salt and pepper")) {
+                    BufferedImage bufImg = Noise.addSaltPepperNoise(pixels, Double.valueOf(inputValue.getText()));
+                    displayBufferedImage(bufImg);
+                }
+            }
+        }
+    }
+
+    public void displayBufferedImage(BufferedImage bufImg) {
+        Image img = SwingFXUtils.toFXImage(bufImg, null);
+        displayPane.getChildren().remove(0);
+        ImageView iv = new ImageView(img);
+        displayPane.getChildren().add(iv);
     }
 
     public void optionsOnAction() {
         switch (optionsComboBox.getValue().toString()) {
-            case "Noise" : {
+            case "Noise": {
                 noisesComboBox.setVisible(true);
-                stdValue.setVisible(true);
+                inputValue.setVisible(true);
                 stdLabel.setVisible(true);
             }
         }

@@ -32,7 +32,7 @@
             <ComboBox fx:id="optionsComboBox" layoutX="14.0" layoutY="141.0" onAction="#optionsOnAction" prefWidth="150.0" />
             <ComboBox fx:id="noisesComboBox" layoutX="14.0" layoutY="198.0" onAction="#noisesOnAction" prefWidth="150.0" />
             <Button fx:id="transformButton" layoutX="56.0" layoutY="304.0" mnemonicParsing="false" onAction="#transformOnAction" text="Button" />
-            <TextField fx:id="stdValue" layoutX="41.0" layoutY="253.0" prefHeight="31.0" prefWidth="126.0" />
+            <TextField fx:id="inputValue" layoutX="41.0" layoutY="253.0" prefHeight="31.0" prefWidth="126.0" />
             <Label fx:id="stdLabel" layoutX="14.0" layoutY="258.0" text="std:" />
          </children></Pane>
    </left>
