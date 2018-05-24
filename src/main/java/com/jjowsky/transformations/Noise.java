@@ -1,16 +1,13 @@
 package com.jjowsky.transformations;
 
 import java.awt.image.BufferedImage;
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Noise {
     public static BufferedImage addGaussianNoiseMono(int[][] pixels, double std) {
-        BufferedImage img = new BufferedImage(pixels[0].length, pixels.length, BufferedImage.TYPE_BYTE_GRAY);
+        BufferedImage img = new BufferedImage(pixels[0].length, pixels.length, BufferedImage.TYPE_3BYTE_BGR);
         int minGrey = 255;
         int maxGrey = 0;
 
@@ -83,7 +80,7 @@ public class Noise {
         return img;
     }
 
-    public static BufferedImage addSaltPepperNoise(int[][] pixels, double std) {
+    public static BufferedImage addSaltPepperNoiseRGB(int[][] pixels, double std) {
         BufferedImage img = new BufferedImage(pixels[0].length, pixels.length, BufferedImage.TYPE_3BYTE_BGR);
         int size = pixels.length * pixels[0].length;
         Set<Integer> randomPixelsRed = new HashSet<>((int) (size * std));
@@ -150,6 +147,43 @@ public class Noise {
                 }
 
                 int rgb = (red << 16) | (green << 8) | blue;
+                img.setRGB(x, y, rgb);
+
+                currentIndex++;
+            }
+        }
+        return img;
+    }
+
+    public static BufferedImage addSaltPepperNoiseMono(int[][] pixels, double std) {
+        BufferedImage img = new BufferedImage(pixels[0].length, pixels.length, BufferedImage.TYPE_3BYTE_BGR);
+        int size = pixels.length * pixels[0].length;
+        Set<Integer> randomPixels = new HashSet<>((int) (size * std));
+        boolean flag = false;
+        int currentIndex = 0;
+
+        for (int i = 0; i < (int) (size * std); ) {
+            int number = ThreadLocalRandom.current().nextInt(0, size);
+            if (randomPixels.add(number)) {
+                i++;
+            }
+        }
+
+        for (int y = 0; y < pixels.length; y++) {
+            for (int x = 0; x < pixels[y].length; x++) {
+                int pixel = pixels[y][x];
+                int grey = (pixel & 0xff);
+
+                if (randomPixels.contains(currentIndex)) {
+                    if (flag) {
+                        grey = 0;
+                        flag = false;
+                    } else {
+                        grey = 255;
+                        flag = true;
+                    }
+                }
+                int rgb = (grey << 16) | (grey << 8) | grey;
                 img.setRGB(x, y, rgb);
 
                 currentIndex++;

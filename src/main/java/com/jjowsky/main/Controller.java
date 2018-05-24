@@ -84,8 +84,14 @@ public class Controller {
                     }
 
                 } else if (noisesComboBox.getValue().toString().equals("Salt and pepper")) {
-                    BufferedImage bufImg = Noise.addSaltPepperNoise(pixels, Double.valueOf(inputValue.getText()));
-                    displayBufferedImage(bufImg);
+                    if (isMonochrome(image)) {
+                        BufferedImage bufImg = Noise.addSaltPepperNoiseMono(pixels, Double.valueOf(inputValue.getText()));
+                        displayBufferedImage(bufImg);
+                    }
+                    else {
+                        BufferedImage bufImg = Noise.addSaltPepperNoiseRGB(pixels, Double.valueOf(inputValue.getText()));
+                        displayBufferedImage(bufImg);
+                    }
                 }
             }
         }
