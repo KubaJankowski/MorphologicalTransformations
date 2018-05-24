@@ -61,7 +61,7 @@ public class Controller {
         optionsComboBox.getItems().addAll("Noise");
 
         noisesComboBox.getItems().clear();
-        noisesComboBox.getItems().addAll("Gaussian", "Salt and pepper");
+        noisesComboBox.getItems().addAll("Gaussian", "Salt and pepper", "Speckle");
         noisesComboBox.setVisible(false);
         inputValue.setVisible(false);
         stdLabel.setVisible(false);
@@ -77,8 +77,7 @@ public class Controller {
                     if (isMonochrome(image)) {
                         BufferedImage bufImg = Noise.addGaussianNoiseMono(pixels, Double.valueOf(inputValue.getText()));
                         displayBufferedImage(bufImg);
-                    }
-                    else {
+                    } else {
                         BufferedImage bufImg = Noise.addGaussianNoiseRGB(pixels, Double.valueOf(inputValue.getText()));
                         displayBufferedImage(bufImg);
                     }
@@ -87,9 +86,16 @@ public class Controller {
                     if (isMonochrome(image)) {
                         BufferedImage bufImg = Noise.addSaltPepperNoiseMono(pixels, Double.valueOf(inputValue.getText()));
                         displayBufferedImage(bufImg);
-                    }
-                    else {
+                    } else {
                         BufferedImage bufImg = Noise.addSaltPepperNoiseRGB(pixels, Double.valueOf(inputValue.getText()));
+                        displayBufferedImage(bufImg);
+                    }
+                } else if (noisesComboBox.getValue().toString().equals("Speckle")) {
+                    if (isMonochrome(image)) {
+                        BufferedImage bufImg = Noise.addSpeckleNoiseMono(pixels, Double.valueOf(inputValue.getText()));
+                        displayBufferedImage(bufImg);
+                    } else {
+                        BufferedImage bufImg = Noise.addSpeckleNoiseRGB(pixels, Double.valueOf(inputValue.getText()));
                         displayBufferedImage(bufImg);
                     }
                 }
