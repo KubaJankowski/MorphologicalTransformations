@@ -34,6 +34,7 @@
             <Button fx:id="transformButton" layoutX="56.0" layoutY="304.0" mnemonicParsing="false" onAction="#transformOnAction" text="Button" />
             <TextField fx:id="inputValue" layoutX="41.0" layoutY="253.0" prefHeight="31.0" prefWidth="126.0" />
             <Label fx:id="stdLabel" layoutX="14.0" layoutY="258.0" text="std:" />
+            <ComboBox fx:id="imageTypeComboBox" layoutX="14.0" layoutY="81.0" prefWidth="150.0" />
          </children></Pane>
    </left>
    <center>

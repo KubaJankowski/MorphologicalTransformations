@@ -33,6 +33,8 @@ public class Controller {
     @FXML
     private ComboBox noisesComboBox;
     @FXML
+    private ComboBox imageTypeComboBox;
+    @FXML
     private TextField inputValue;
     @FXML
     private Label stdLabel;
@@ -57,6 +59,9 @@ public class Controller {
     }
 
     public void initialize() {
+        imageTypeComboBox.getItems().clear();
+        imageTypeComboBox.getItems().addAll("RGB", "Mono");
+
         optionsComboBox.getItems().clear();
         optionsComboBox.getItems().addAll("Noise");
 
@@ -70,11 +75,13 @@ public class Controller {
 
     public void transformOnAction() {
         int[][] pixels = Utils.convertTo2D(image);
+        String noiseType = noisesComboBox.getValue().toString();
+        String imageType = imageTypeComboBox.getValue().toString();
 
         switch (optionsComboBox.getValue().toString()) {
             case "Noise": {
-                if (noisesComboBox.getValue().toString().equals("Gaussian")) {
-                    if (isMonochrome(image)) {
+                if (noiseType.equals("Gaussian")) {
+                    if (imageType.equals("Mono")) {
                         BufferedImage bufImg = Noise.addGaussianNoiseMono(pixels, Double.valueOf(inputValue.getText()));
                         displayBufferedImage(bufImg);
                     } else {
@@ -82,16 +89,16 @@ public class Controller {
                         displayBufferedImage(bufImg);
                     }
 
-                } else if (noisesComboBox.getValue().toString().equals("Salt and pepper")) {
-                    if (isMonochrome(image)) {
+                } else if (noiseType.equals("Salt and pepper")) {
+                    if (imageType.equals("Mono")) {
                         BufferedImage bufImg = Noise.addSaltPepperNoiseMono(pixels, Double.valueOf(inputValue.getText()));
                         displayBufferedImage(bufImg);
                     } else {
                         BufferedImage bufImg = Noise.addSaltPepperNoiseRGB(pixels, Double.valueOf(inputValue.getText()));
                         displayBufferedImage(bufImg);
                     }
-                } else if (noisesComboBox.getValue().toString().equals("Speckle")) {
-                    if (isMonochrome(image)) {
+                } else if (noiseType.equals("Speckle")) {
+                    if (imageType.equals("Mono")) {
                         BufferedImage bufImg = Noise.addSpeckleNoiseMono(pixels, Double.valueOf(inputValue.getText()));
                         displayBufferedImage(bufImg);
                     } else {
