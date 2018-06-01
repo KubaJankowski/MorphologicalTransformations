@@ -108,14 +108,20 @@ public class Controller {
                 break;
             }
             case "Labeling": {
-               // BufferedImage bufImg = Labeling.convertToLogical(pixels);
+                // BufferedImage bufImg = Labeling.convertToLogical(pixels);
                 BufferedImage bufImg = Labeling.label(pixels);
                 displayBufferedImage(bufImg);
                 break;
             }
             case "Entropy thresholding": {
-                BufferedImage bufImg = EntropyThresholding.apply(pixels);
-                displayBufferedImage(bufImg);
+                String imageType = imageTypeComboBox.getValue().toString();
+                if (imageType.equals("Mono")) {
+                    BufferedImage bufImg = EntropyThresholding.applyMono(pixels);
+                    displayBufferedImage(bufImg);
+                } else {
+                    BufferedImage bufImg = EntropyThresholding.applyRGB(pixels);
+                    displayBufferedImage(bufImg);
+                }
                 break;
             }
         }
