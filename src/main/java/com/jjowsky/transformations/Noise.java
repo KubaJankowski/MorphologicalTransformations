@@ -29,7 +29,7 @@ public class Noise {
                 double greyD = (double) grey / 255;
                 //greyD += Noise.generateGaussian() * std;
                 //greyD = greyD * (1 + (ThreadLocalRandom.current().nextGaussian() * std));
-                greyD += ThreadLocalRandom.current().nextGaussian() * std;
+                greyD += ThreadLocalRandom.current().nextGaussian() * Math.sqrt(std);
                 grey = (int) (greyD * (maxGrey - minGrey));
                 grey = ((grey > 255) ? 255 : grey);
                 grey = ((grey < 0) ? 0 : grey);
@@ -63,9 +63,9 @@ public class Noise {
                 //redD+= Noise.generateGaussian() * std;
                 //greenD += Noise.generateGaussian() * std;
                 //blueD += Noise.generateGaussian() * std;
-                redD += ThreadLocalRandom.current().nextGaussian() * std;
-                greenD += ThreadLocalRandom.current().nextGaussian() * std;
-                blueD += ThreadLocalRandom.current().nextGaussian() * std;
+                redD += ThreadLocalRandom.current().nextGaussian() * Math.sqrt(std);
+                greenD += ThreadLocalRandom.current().nextGaussian() * Math.sqrt(std);
+                blueD += ThreadLocalRandom.current().nextGaussian() * Math.sqrt(std);
 
                 red = (int) (redD * (minMaxRed[1] - minMaxRed[0]));
                 green = (int) (greenD * (minMaxGreen[1] - minMaxGreen[0]));
@@ -218,7 +218,7 @@ public class Noise {
                 int grey = (pixel & 0xff);
 
                 double greyD = (double) grey / 255;
-                greyD = greyD * (1 + (ThreadLocalRandom.current().nextGaussian() * std));
+                greyD = greyD * (1 + (ThreadLocalRandom.current().nextGaussian() * Math.sqrt(std)));
                 grey = (int) (greyD * (maxGrey - minGrey));
                 grey = ((grey > 255) ? 255 : grey);
                 grey = ((grey < 0) ? 0 : grey);
@@ -249,9 +249,9 @@ public class Noise {
                 double greenD = (double) green / 255;
                 double blueD = (double) blue / 255;
 
-                redD = redD * (1 + (ThreadLocalRandom.current().nextGaussian() * std));
-                greenD = greenD * (1 + (ThreadLocalRandom.current().nextGaussian() * std));
-                blueD = blueD * (1 + (ThreadLocalRandom.current().nextGaussian() * std));
+                redD = redD * (1 + (ThreadLocalRandom.current().nextGaussian() * Math.sqrt(std)));
+                greenD = greenD * (1 + (ThreadLocalRandom.current().nextGaussian() * Math.sqrt(std)));
+                blueD = blueD * (1 + (ThreadLocalRandom.current().nextGaussian() * Math.sqrt(std)));
 
                 red = (int) (redD * (minMaxRed[1] - minMaxRed[0]));
                 green = (int) (greenD * (minMaxGreen[1] - minMaxGreen[0]));

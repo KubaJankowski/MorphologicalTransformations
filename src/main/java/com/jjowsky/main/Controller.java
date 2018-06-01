@@ -1,5 +1,6 @@
 package com.jjowsky.main;
 
+import com.jjowsky.transformations.EntropyThresholding;
 import com.jjowsky.transformations.Labeling;
 import com.jjowsky.transformations.Noise;
 import com.jjowsky.transformations.Utils;
@@ -62,7 +63,7 @@ public class Controller {
         imageTypeComboBox.getItems().addAll("RGB", "Mono");
 
         optionsComboBox.getItems().clear();
-        optionsComboBox.getItems().addAll("Noise", "Labeling");
+        optionsComboBox.getItems().addAll("Noise", "Labeling", "Entropy thresholding");
 
         noisesComboBox.getItems().clear();
         noisesComboBox.getItems().addAll("Gaussian", "Salt and pepper", "Speckle");
@@ -104,11 +105,18 @@ public class Controller {
                         displayBufferedImage(bufImg);
                     }
                 }
+                break;
             }
             case "Labeling": {
                // BufferedImage bufImg = Labeling.convertToLogical(pixels);
                 BufferedImage bufImg = Labeling.label(pixels);
                 displayBufferedImage(bufImg);
+                break;
+            }
+            case "Entropy thresholding": {
+                BufferedImage bufImg = EntropyThresholding.apply(pixels);
+                displayBufferedImage(bufImg);
+                break;
             }
         }
     }

@@ -16,6 +16,25 @@ public class Utils {
         return isMonochrome;
     }
 
+    public static BufferedImage toGreyScale(int[][] pixels) {
+        BufferedImage img = new BufferedImage(pixels[0].length, pixels.length, BufferedImage.TYPE_3BYTE_BGR);
+
+        for (int y = 0; y < pixels.length; y++) {
+            for (int x = 0; x < pixels[y].length; x++) {
+                int pixel = pixels[y][x];
+                int red = (pixel >> 16 & 0xff);
+                int green = (pixel >> 8 & 0xff);
+                int blue = (pixel & 0xff);
+
+                int grey = (int)(0.2989 * red + 0.587 * green + 0.114 * blue);
+                grey = (grey << 16) | (grey << 8) | grey;
+
+                img.setRGB(x, y, grey);
+            }
+        }
+        return img;
+    }
+
     public static int[][] convertTo2D(BufferedImage image) {
         final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
         final int width = image.getWidth();
@@ -112,5 +131,9 @@ public class Utils {
         set.addAll(list2);
 
         return new ArrayList<>(set);
+    }
+
+    static double log(double x, int base) {
+        return (Math.log(x) / (double)Math.log(base));
     }
 }
