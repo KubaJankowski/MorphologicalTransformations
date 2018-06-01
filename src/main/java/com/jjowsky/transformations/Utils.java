@@ -3,6 +3,9 @@ package com.jjowsky.transformations;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Utils {
 
@@ -24,7 +27,7 @@ public class Utils {
         if (isMonochrome(image)) {
             final int pixelLength = 1;
             for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
-                int grey = ((int) pixels[pixel] & 0xff); // blue
+                int grey = ((int) pixels[pixel] & 0xff);
                 result[row][col] = grey;
                 col++;
                 if (col == width) {
@@ -99,5 +102,15 @@ public class Utils {
         }
         int[] result = {min, max};
         return result;
+    }
+
+    //union: http://stackoverflow.com/questions/5283047/intersection-and-union-of-arraylists-in-java
+    public static <T> ArrayList<T> union(ArrayList<T> list1, ArrayList<T> list2) {
+        Set<T> set = new HashSet<>();
+
+        set.addAll(list1);
+        set.addAll(list2);
+
+        return new ArrayList<>(set);
     }
 }

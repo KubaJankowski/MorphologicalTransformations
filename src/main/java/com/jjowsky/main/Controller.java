@@ -1,5 +1,6 @@
 package com.jjowsky.main;
 
+import com.jjowsky.transformations.Labeling;
 import com.jjowsky.transformations.Noise;
 import com.jjowsky.transformations.Utils;
 import javafx.embed.swing.SwingFXUtils;
@@ -17,8 +18,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
-import static com.jjowsky.transformations.Utils.isMonochrome;
 
 public class Controller {
 
@@ -63,7 +62,7 @@ public class Controller {
         imageTypeComboBox.getItems().addAll("RGB", "Mono");
 
         optionsComboBox.getItems().clear();
-        optionsComboBox.getItems().addAll("Noise");
+        optionsComboBox.getItems().addAll("Noise", "Labeling");
 
         noisesComboBox.getItems().clear();
         noisesComboBox.getItems().addAll("Gaussian", "Salt and pepper", "Speckle");
@@ -75,11 +74,10 @@ public class Controller {
 
     public void transformOnAction() {
         int[][] pixels = Utils.convertTo2D(image);
-        String noiseType = noisesComboBox.getValue().toString();
-        String imageType = imageTypeComboBox.getValue().toString();
-
         switch (optionsComboBox.getValue().toString()) {
             case "Noise": {
+                String imageType = imageTypeComboBox.getValue().toString();
+                String noiseType = noisesComboBox.getValue().toString();
                 if (noiseType.equals("Gaussian")) {
                     if (imageType.equals("Mono")) {
                         BufferedImage bufImg = Noise.addGaussianNoiseMono(pixels, Double.valueOf(inputValue.getText()));
@@ -106,6 +104,11 @@ public class Controller {
                         displayBufferedImage(bufImg);
                     }
                 }
+            }
+            case "Labeling": {
+               // BufferedImage bufImg = Labeling.convertToLogical(pixels);
+                BufferedImage bufImg = Labeling.label(pixels);
+                displayBufferedImage(bufImg);
             }
         }
     }
