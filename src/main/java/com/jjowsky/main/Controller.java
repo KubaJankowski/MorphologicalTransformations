@@ -1,9 +1,6 @@
 package com.jjowsky.main;
 
-import com.jjowsky.transformations.EntropyThresholding;
-import com.jjowsky.transformations.Labeling;
-import com.jjowsky.transformations.Noise;
-import com.jjowsky.transformations.Utils;
+import com.jjowsky.transformations.*;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -63,7 +60,7 @@ public class Controller {
         imageTypeComboBox.getItems().addAll("RGB", "Mono");
 
         optionsComboBox.getItems().clear();
-        optionsComboBox.getItems().addAll("Noise", "Labeling", "Entropy thresholding");
+        optionsComboBox.getItems().addAll("Noise", "Labeling", "Entropy thresholding", "Open image");
 
         noisesComboBox.getItems().clear();
         noisesComboBox.getItems().addAll("Gaussian", "Salt and pepper", "Speckle");
@@ -123,6 +120,10 @@ public class Controller {
                     displayBufferedImage(bufImg);
                 }
                 break;
+            }
+            case "Open image": {
+                BufferedImage bufImg = OpenImage.applyToLogical(pixels, Integer.valueOf(inputValue.getText()));
+                displayBufferedImage(bufImg);
             }
         }
     }

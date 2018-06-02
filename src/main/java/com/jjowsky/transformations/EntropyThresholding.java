@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 public class EntropyThresholding {
     public static BufferedImage applyRGB(int[][] pixels) {
         BufferedImage img = Utils.toGreyScale(pixels);
+        pixels = Utils.convertTo2D(img);
 
         double[] histogram = new double[256];
         for (int y = 0; y < pixels.length; y++) {
