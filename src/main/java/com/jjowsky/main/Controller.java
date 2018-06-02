@@ -64,6 +64,7 @@ public class Controller {
 
         noisesComboBox.getItems().clear();
         noisesComboBox.getItems().addAll("Gaussian", "Salt and pepper", "Speckle");
+        imageTypeComboBox.setVisible(false);
         noisesComboBox.setVisible(false);
         inputValue.setVisible(false);
         stdLabel.setVisible(false);
@@ -105,7 +106,6 @@ public class Controller {
                 break;
             }
             case "Labeling": {
-                // BufferedImage bufImg = Labeling.convertToLogical(pixels);
                 BufferedImage bufImg = Labeling.label(pixels);
                 displayBufferedImage(bufImg);
                 break;
@@ -122,7 +122,7 @@ public class Controller {
                 break;
             }
             case "Open image": {
-                BufferedImage bufImg = OpenImage.applyToLogical(pixels, Integer.valueOf(inputValue.getText()));
+                BufferedImage bufImg = OpenImage.apply(pixels, Integer.valueOf(inputValue.getText()));
                 displayBufferedImage(bufImg);
             }
         }
@@ -138,7 +138,29 @@ public class Controller {
     public void optionsOnAction() {
         switch (optionsComboBox.getValue().toString()) {
             case "Noise": {
+                imageTypeComboBox.setVisible(true);
                 noisesComboBox.setVisible(true);
+                inputValue.setVisible(true);
+                stdLabel.setVisible(true);
+                break;
+            }
+            case "Labeling": {
+                imageTypeComboBox.setVisible(false);
+                noisesComboBox.setVisible(false);
+                inputValue.setVisible(false);
+                stdLabel.setVisible(false);
+                break;
+            }
+            case "Entropy thresholding": {
+                imageTypeComboBox.setVisible(true);
+                noisesComboBox.setVisible(false);
+                inputValue.setVisible(false);
+                stdLabel.setVisible(false);
+                break;
+            }
+            case "Open image": {
+                imageTypeComboBox.setVisible(false);
+                noisesComboBox.setVisible(false);
                 inputValue.setVisible(true);
                 stdLabel.setVisible(true);
             }

@@ -7,8 +7,6 @@ public class OpenImage {
         int width = pixels[0].length;
         int height = pixels.length;
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
-        // BufferedImage img = Utils.toGreyScale(pixels);
-        //pixels = Utils.convertTo2D(img);
 
         for (int y = radius; y < height - radius; y++) {
             for (int x = radius; x < width - radius; x++) {
@@ -37,8 +35,7 @@ public class OpenImage {
         int width = pixels[0].length;
         int height = pixels.length;
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
-        //BufferedImage img = Utils.toGreyScale(pixels);
-        //pixels = Utils.convertTo2D(img);
+        ;
 
         for (int y = radius; y < height - radius; y++) {
             for (int x = radius; x < width - radius; x++) {
@@ -63,24 +60,23 @@ public class OpenImage {
         return img;
     }
 
-    public static BufferedImage applyToLogical(int[][] pixels, int radius) {
-        BufferedImage img = new BufferedImage(pixels[0].length, pixels.length, BufferedImage.TYPE_3BYTE_BGR);
+    public static BufferedImage apply(int[][] pixels, int radius) {
         int[][] tmpPixels = Utils.convertTo2D(erode(pixels, radius));
         tmpPixels = Utils.convertTo2D(dylate(tmpPixels, radius));
+        BufferedImage img = new BufferedImage(tmpPixels[0].length - 2*radius, tmpPixels.length - 2*radius, BufferedImage.TYPE_3BYTE_BGR);
         int rgb;
 
-        for (int y = 0; y < pixels.length; y++) {
-            for (int x = 0; x < pixels[y].length; x++) {
-                if ((x > radius + 1 && y > radius + 1) && (x < pixels[y].length - radius - 1 && y < pixels.length - radius - 1)) {
-                    int pixel = tmpPixels[y][x];
-                    int value = (pixel & 0xff);
-                    rgb = (value << 16) | (value << 8) | value;
+        for (int y = 0; y < tmpPixels.length - 2*radius; y++) {
+            for (int x = 0; x < tmpPixels[y].length - 2*radius; x++) {
+                int pixel;
 
-                } else {
-                    int pixel = pixels[y][x];
-                    int value = (pixel & 0xff);
-                    rgb = (value << 16) | (value << 8) | value;
-                }
+                if (y < 2*radius || x < 2*radius)
+                    pixel = pixels[y][x];
+                else
+                    pixel = tmpPixels[y][x];
+
+                int value = (pixel & 0xff);
+                rgb = (value << 16) | (value << 8) | value;
                 img.setRGB(x, y, rgb);
             }
         }
