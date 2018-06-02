@@ -64,6 +64,7 @@ public class Controller {
 
         noisesComboBox.getItems().clear();
         noisesComboBox.getItems().addAll("Gaussian", "Salt and pepper", "Speckle");
+        noisesComboBox.setValue("Gaussian");
         imageTypeComboBox.setVisible(false);
         noisesComboBox.setVisible(false);
         inputValue.setVisible(false);
@@ -71,7 +72,7 @@ public class Controller {
 
     }
 
-    public void transformOnAction() {
+    public void transformOnAction() throws IOException {
         int[][] pixels = Utils.convertTo2D(image);
         switch (optionsComboBox.getValue().toString()) {
             case "Noise": {
@@ -81,26 +82,32 @@ public class Controller {
                     if (imageType.equals("Mono")) {
                         BufferedImage bufImg = Noise.addGaussianNoiseMono(pixels, Double.valueOf(inputValue.getText()));
                         displayBufferedImage(bufImg);
+                        saveImageToFile(bufImg);
                     } else {
                         BufferedImage bufImg = Noise.addGaussianNoiseRGB(pixels, Double.valueOf(inputValue.getText()));
                         displayBufferedImage(bufImg);
+                        saveImageToFile(bufImg);
                     }
 
                 } else if (noiseType.equals("Salt and pepper")) {
                     if (imageType.equals("Mono")) {
                         BufferedImage bufImg = Noise.addSaltPepperNoiseMono(pixels, Double.valueOf(inputValue.getText()));
                         displayBufferedImage(bufImg);
+                        saveImageToFile(bufImg);
                     } else {
                         BufferedImage bufImg = Noise.addSaltPepperNoiseRGB(pixels, Double.valueOf(inputValue.getText()));
                         displayBufferedImage(bufImg);
+                        saveImageToFile(bufImg);
                     }
                 } else if (noiseType.equals("Speckle")) {
                     if (imageType.equals("Mono")) {
                         BufferedImage bufImg = Noise.addSpeckleNoiseMono(pixels, Double.valueOf(inputValue.getText()));
                         displayBufferedImage(bufImg);
+                        saveImageToFile(bufImg);
                     } else {
                         BufferedImage bufImg = Noise.addSpeckleNoiseRGB(pixels, Double.valueOf(inputValue.getText()));
                         displayBufferedImage(bufImg);
+                        saveImageToFile(bufImg);
                     }
                 }
                 break;
@@ -108,6 +115,7 @@ public class Controller {
             case "Labeling": {
                 BufferedImage bufImg = Labeling.label(pixels);
                 displayBufferedImage(bufImg);
+                saveImageToFile(bufImg);
                 break;
             }
             case "Entropy thresholding": {
@@ -115,15 +123,18 @@ public class Controller {
                 if (imageType.equals("Mono")) {
                     BufferedImage bufImg = EntropyThresholding.applyMono(pixels);
                     displayBufferedImage(bufImg);
+                    saveImageToFile(bufImg);
                 } else {
                     BufferedImage bufImg = EntropyThresholding.applyRGB(pixels);
                     displayBufferedImage(bufImg);
+                    saveImageToFile(bufImg);
                 }
                 break;
             }
             case "Open image": {
                 BufferedImage bufImg = OpenImage.apply(pixels, Integer.valueOf(inputValue.getText()));
                 displayBufferedImage(bufImg);
+                saveImageToFile(bufImg);
             }
         }
     }
@@ -163,12 +174,22 @@ public class Controller {
                 noisesComboBox.setVisible(false);
                 inputValue.setVisible(true);
                 stdLabel.setVisible(true);
+                stdLabel.setText("radius:");
             }
         }
     }
 
     public void noisesOnAction() {
+        String noiseType = noisesComboBox.getValue().toString();
+        if (!noiseType.equals("Salt and pepper"))
+            stdLabel.setText("std:");
+        else
+            stdLabel.setText("density:");
+    }
 
+    public void saveImageToFile(BufferedImage img) throws IOException {
+        File output = new File("output.png");
+        ImageIO.write(img, "png", output);
     }
 }
 

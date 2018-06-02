@@ -31,9 +31,9 @@
          <children>
             <ComboBox fx:id="optionsComboBox" layoutX="14.0" layoutY="141.0" onAction="#optionsOnAction" prefWidth="150.0" />
             <ComboBox fx:id="noisesComboBox" layoutX="14.0" layoutY="198.0" onAction="#noisesOnAction" prefWidth="150.0" />
-            <Button fx:id="transformButton" layoutX="56.0" layoutY="304.0" mnemonicParsing="false" onAction="#transformOnAction" text="Button" />
-            <TextField fx:id="inputValue" layoutX="41.0" layoutY="253.0" prefHeight="31.0" prefWidth="126.0" />
-            <Label fx:id="stdLabel" layoutX="14.0" layoutY="258.0" text="std:" />
+            <Button fx:id="transformButton" layoutX="45.0" layoutY="307.0" mnemonicParsing="false" onAction="#transformOnAction" text="Transform" />
+            <TextField fx:id="inputValue" layoutX="62.0" layoutY="253.0" prefHeight="31.0" prefWidth="105.0" />
+            <Label fx:id="stdLabel" alignment="CENTER" layoutX="2.0" layoutY="258.0" prefHeight="21.0" prefWidth="61.0" />
             <ComboBox fx:id="imageTypeComboBox" layoutX="14.0" layoutY="81.0" prefWidth="150.0" />
          </children></Pane>
    </left>

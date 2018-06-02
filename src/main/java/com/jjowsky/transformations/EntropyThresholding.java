@@ -47,7 +47,7 @@ public class EntropyThresholding {
             entropyHigh[th] /= highSum;
         }
 
-        double max = entropyLow[0] + entropyHigh[0];
+        double max = entropyHigh[0];
         int threshold = 0;
 
         for (int k = 1; k < 256; k++) {

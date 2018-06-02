@@ -23,7 +23,6 @@ public class OpenImage {
                                 rgb = currentRGB;
                         }
                     }
-
                 }
                 img.setRGB(x, y, rgb);
             }
